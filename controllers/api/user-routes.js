@@ -1,9 +1,7 @@
 const router = require('express').Router();
-// const { User } = require('../../models');
-// const bcrypt = require("bcrypt");
 const { User, Post, Comment, Vote } = require('../../models');
 
-// GET /api/users
+// get all users
 router.get('/', (req, res) => {
     // Access our User model and run .findall() method)
     User.findAll({
@@ -42,7 +40,7 @@ router.get('/:id', (req, res) => {
             through: Vote,
             as: 'voted_posts'
         }
-    ],
+    ]
 })
         .then(dbUserData => {
             if (!dbUserData) {
@@ -73,6 +71,10 @@ router.post('/', (req, res) => {
 
                 res.json(dbUserData);
             });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
         });
 });
 
